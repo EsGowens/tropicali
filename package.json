@@ -1,0 +1,28 @@
+{
+  "name": "tropicali",
+  "version": "1.0.0",
+  "description": "SuperHi project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EsGowens/tropicali.git"
+  },
+  "keywords": [
+    "student",
+    "gulp",
+    "commandline",
+    "hyper"
+  ],
+  "author": "Garrett Saxon",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EsGowens/tropicali/issues"
+  },
+  "homepage": "https://github.com/EsGowens/tropicali#readme",
+  "devDependencies": {
+    "gulp": "^4.0.2"
+  }
+}
