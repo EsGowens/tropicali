@@ -5,6 +5,7 @@ const cleanCss = require('gulp-clean-css');
 const sourcemaps = require('gulp-sourcemaps');
 const browserSync = require('browser-sync').create();
 const imagemin = require('gulp-imagemin')
+const ghpages = require("gh-pages")
 const { watch, parallel } = require('gulp');
 
 sass.compiler = require('node-sass')
@@ -49,6 +50,12 @@ function Sync(cb){
             baseDir: ('dist')
         }
     })
+
+    cb();
+}
+
+exports.deploy = function (cb) {
+    ghpages.publish('dist') 
 
     cb();
 }
