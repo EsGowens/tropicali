@@ -1,23 +1,37 @@
 
 const gulp = require('gulp');
-const sass = require('gulp-sass');
 const cleanCss = require('gulp-clean-css');
+const postcss = require('gulp-postcss')
 const sourcemaps = require('gulp-sourcemaps');
+const concat = require('gulp-concat');
 const browserSync = require('browser-sync').create();
-const imagemin = require('gulp-imagemin')
+const imagemin = require('gulp-imagemin');
+const ghpages = require("gh-pages");
 const { watch, parallel } = require('gulp');
 
-sass.compiler = require('node-sass')
 
-function runSass(cb) {
-  // we want to run "sass css/app/scss app.css --watch"
-    gulp.src('src/css/app.scss')
+function css(cb) {
+  
+    gulp.src([
+        'src/css/reset.css',
+        'src/css/typography.css',
+        'src/css/app.css'
+    ])
     .pipe(sourcemaps.init())
-      .pipe(sass())
+    .pipe(
+          postcss([
+              require('autoprefixer'),
+              require('postcss-preset-env')({
+                  stage: 1,
+                  browsers: ['IE 11', 'last 2 versions']
+              })
+          ])
+        )
+      .pipe(concat('app.css'))
       .pipe(cleanCss({compatibility: 'ie8'}))
       .pipe(sourcemaps.write())
       .pipe(gulp.dest('dist'))
-      .pipe(browserSync.stream())
+      .pipe(browserSync.stream());
       cb();
 }
 
@@ -53,9 +67,15 @@ function Sync(cb){
     cb();
 }
 
+exports.deploy = function (cb) {
+    ghpages.publish('dist') 
+
+    cb();
+}
+
 exports.default = function () {
-    watch('src/css/app.scss', runSass);
-    watch('src/*.html', parallel(HTML, fonts, images, Sync)).on('change', browserSync.reload); 
+    watch('src/css/*', css)
+    watch('src/*', parallel(HTML, fonts, images, Sync)).on('change', browserSync.reload); 
     
 
     
